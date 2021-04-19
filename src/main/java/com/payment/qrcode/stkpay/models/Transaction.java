@@ -25,5 +25,7 @@ public class Transaction {
     private String status;
 
     private String transactionID;
+
+    private String clientTransactionID;
     
 }
