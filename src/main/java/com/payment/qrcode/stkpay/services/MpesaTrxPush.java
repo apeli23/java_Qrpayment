@@ -7,8 +7,6 @@ import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
-
-import com.payment.qrcode.stkpay.models.STKRequest;
 import com.payment.qrcode.stkpay.models.Transaction;
 import com.payment.qrcode.stkpay.repositories.TransactionRepository;
 import com.payment.qrcode.stkpay.tools.AppConstants;
@@ -28,21 +26,23 @@ public class MpesaTrxPush {
 
 
     public String sendMpesa(Transaction trx) {
-        STKRequest req = new STKRequest();
-        DateFormat dateFormat = new SimpleDateFormat("YYYYMMDDHHmmss");
+        DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
         Date date = new Date();
 
-        req.setAmount(trx.getAmount());
-        req.setAccountReference(trx.getTransactionID());
-        req.setBusinessShortCode(AppConstants.SHORTCODE);
-        req.setPartyA(trx.getPhonenumber());
-        req.setPartyB(AppConstants.SHORTCODE);
-        req.setTimestamp(dateFormat.format(date));
-        req.setTransactionType(AppConstants.TRANSACTION_TYPE);
-        req.setPassword(genPassword(AppConstants.SHORTCODE, AppConstants.PASSKEY, dateFormat.format(date)));
-        req.setPhoneNumber(trx.getPhonenumber());
-        req.setCallBackURL(AppConstants.CALLBACK_URL);
-        req.setTransactionDesc("Order Pay");
+        JSONObject job = new JSONObject();
+        
+        job.put("BusinessShortCode", AppConstants.SHORTCODE);
+        job.put("Password", genPassword(AppConstants.SHORTCODE, AppConstants.PASSKEY, dateFormat.format(date)));
+        job.put("Timestamp", dateFormat.format(date));
+        job.put("TransactionType", AppConstants.TRANSACTION_TYPE);
+        job.put("Amount", trx.getAmount()+"");
+        job.put("PartyA", trx.getPhonenumber());
+        job.put("PartyB", AppConstants.SHORTCODE);
+        job.put("PhoneNumber", trx.getPhonenumber());
+        job.put("CallBackURL", AppConstants.CALLBACK_URL);
+        job.put("AccountReference", trx.getTransactionID());
+        job.put("TransactionDesc", "Order Pay");
+
 
         HashMap<String, String> headers = new HashMap<>();
 
@@ -50,12 +50,11 @@ public class MpesaTrxPush {
 
         headers.put("Content-Type", "application/json");
 
-        JSONObject jo = new JSONObject(req);
 
         String response = "";
 
         try {
-            response = Utils.postRequest(AppConstants.PAYMENT_URL, jo.toString(), headers);
+            response = Utils.postRequest(AppConstants.PAYMENT_URL, job.toString(), headers);
             System.out.println(response + " | sendMpesa() ");
         } catch (ClientProtocolException e) {
             e.printStackTrace();
@@ -71,7 +70,7 @@ public class MpesaTrxPush {
 
     }
 
-    private String genPassword(long shortcode, String passkey, String timeStamp) {
+    private String genPassword(String shortcode, String passkey, String timeStamp) {
         String value = shortcode + passkey + timeStamp;
         return Base64.getEncoder().encodeToString(value.getBytes());
     }

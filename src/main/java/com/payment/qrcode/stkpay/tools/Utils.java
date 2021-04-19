@@ -21,6 +21,8 @@ public final class Utils {
     public static String postRequest(String url, String payload, HashMap<String, String> headers)
             throws ClientProtocolException, IOException {
 
+                System.out.println(payload);
+
         CloseableHttpClient httpclient = HttpClientBuilder.create().build();
         HttpPost httppost;
         try {

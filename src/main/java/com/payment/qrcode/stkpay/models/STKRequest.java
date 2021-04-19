@@ -4,13 +4,13 @@ import lombok.Data;
 
 @Data
 public class STKRequest {
-    private long BusinessShortCode;
+    private String BusinessShortCode;
 	private String Password; 
 	private String Timestamp;
 	private String TransactionType;
-	private Double Amount;
+	private String Amount;
 	private String PartyA; 
-	private long PartyB;
+	private String PartyB;
 	private String PhoneNumber;
 	private String CallBackURL; 
 	private String AccountReference;

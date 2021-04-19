@@ -22,7 +22,7 @@ public class Transaction {
 
     private Date createdAt;
 
-    private Double amount;
+    private String amount;
 
     private String status;
 
