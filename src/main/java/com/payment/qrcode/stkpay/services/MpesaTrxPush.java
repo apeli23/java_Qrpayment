@@ -40,7 +40,7 @@ public class MpesaTrxPush {
         job.put("PartyB", AppConstants.SHORTCODE);
         job.put("PhoneNumber", trx.getPhonenumber());
         job.put("CallBackURL", AppConstants.CALLBACK_URL);
-        job.put("AccountReference", trx.getTransactionID());
+        job.put("AccountReference", dateFormat.format(date));
         job.put("TransactionDesc", "Order Pay");
 
 
