@@ -23,7 +23,7 @@ public class TransactionService {
     private  TransactionRepository transactionRepository;
     
 
-    public void create(TransactionRequest trans){
+    public String create(TransactionRequest trans) {
 
 
         UUID uuid = UUID.randomUUID();
@@ -35,6 +35,8 @@ public class TransactionService {
         transaction.setPhonenumber(trans.getPhonenumber());
         transaction.setTransactionID(uuid.toString());
         transactionRepository.save(transaction);
+
+        return uuid.toString();
     }
 
 
