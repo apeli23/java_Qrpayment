@@ -8,8 +8,8 @@ public class STKRequest {
 	private String Password; 
 	private String Timestamp;
 	private String TransactionType;
-	private long Amount;
-	private String PartyA; 
+	private Double Amount;
+	private long PartyA; 
 	private long PartyB;
 	private long PhoneNumber;
 	private String CallBackURL; 

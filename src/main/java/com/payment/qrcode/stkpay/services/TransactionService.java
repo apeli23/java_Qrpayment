@@ -15,8 +15,8 @@ import com.payment.qrcode.stkpay.models.Transaction;
 @Service
 public class TransactionService {
 
-    @Autowired
-    private ModelMapper modelMapper;
+    // @Autowired
+    // private ModelMapper modelMapper;
 
 
     @Autowired
@@ -38,7 +38,11 @@ public class TransactionService {
     }
 
 
-    public void update(){
-        
+    public void updateSent(){
+
+    }
+
+    public void updateComplete(){
+
     }
 }
