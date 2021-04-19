@@ -27,20 +27,20 @@ public class MpesaTrxPush {
     private  TransactionRepository transactionRepository;
 
 
-    public String sendMpesa(Double amount, long phone, Transaction trx) {
+    public String sendMpesa(Transaction trx) {
         STKRequest req = new STKRequest();
         DateFormat dateFormat = new SimpleDateFormat("YYYYMMDDHHmmss");
         Date date = new Date();
 
-        req.setAmount(amount);
+        req.setAmount(trx.getAmount());
         req.setAccountReference(trx.getTransactionID());
         req.setBusinessShortCode(AppConstants.SHORTCODE);
-        req.setPartyA(phone);
+        req.setPartyA(trx.getPhonenumber());
         req.setPartyB(AppConstants.SHORTCODE);
         req.setTimestamp(dateFormat.format(date));
         req.setTransactionType(AppConstants.TRANSACTION_TYPE);
         req.setPassword(genPassword(AppConstants.SHORTCODE, AppConstants.PASSKEY, dateFormat.format(date)));
-        req.setPhoneNumber(phone);
+        req.setPhoneNumber(trx.getPhonenumber());
         req.setCallBackURL(AppConstants.CALLBACK_URL);
         req.setTransactionDesc("Order Pay");
 

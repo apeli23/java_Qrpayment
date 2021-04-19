@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.payment.qrcode.stkpay.repositories.TransactionRepository;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import com.payment.qrcode.stkpay.dtos.TransactionRequest;
@@ -40,7 +41,17 @@ public class TransactionService {
     }
 
 
-    public void updateSent(){
+    public Transaction updateSent(String id){
+
+        List<Transaction> trxs = transactionRepository.findByTransactionID(id);
+        if (trxs.size() <= 0) {
+            return new Transaction();
+        }
+
+
+        return trxs.get(0);
+        
+
 
     }
 

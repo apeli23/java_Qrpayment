@@ -9,9 +9,9 @@ public class STKRequest {
 	private String Timestamp;
 	private String TransactionType;
 	private Double Amount;
-	private long PartyA; 
+	private String PartyA; 
 	private long PartyB;
-	private long PhoneNumber;
+	private String PhoneNumber;
 	private String CallBackURL; 
 	private String AccountReference;
 	private String TransactionDesc;
