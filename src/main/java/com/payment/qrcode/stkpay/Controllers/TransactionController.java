@@ -26,6 +26,7 @@ public class TransactionController {
     public ResponseEntity<BufferedImage> qrgenQRCode(@RequestBody TransactionRequest transaction) throws Exception {
         String trxid = transactionService.create(transaction);
         String barcode = AppConstants.BASE_URL +"/"+trxid;
+        System.out.println(barcode+" | qrgenQRCode() ");
         return okResponse(QRGen.generateQRCodeImage(barcode));
     }
     
