@@ -13,12 +13,12 @@ help: ## - Show help message
 .PHONY: build
 build:	## - Building docker image
 	@printf "\033[32m\xE2\x9c\x93 $(VERSION) | Building docker image\n\033[0m"
-	@docker build  --build-arg SECRET='$(SECRET)' -f Dockerfile -t gcr.io/$(PROJECT)/$(APPLICATION):$(VERSION) .
+	@docker build   -f Dockerfile -t gcr.io/$(PROJECT)/$(APPLICATION):$(VERSION) .
 
 .PHONY: build-no-cache
 build-no-cache:	## - Building docker image with no cache
 	@printf "\033[32m\xE2\x9c\x93 $(VERSION) | Building docker image with no cache\n\033[0m"
-	@docker build --build-arg SECRET='$(SECRET)' --no-cache -f Dockerfile -t gcr.io/$(PROJECT)/$(APPLICATION):$(VERSION) .
+	@docker build  --no-cache -f Dockerfile -t gcr.io/$(PROJECT)/$(APPLICATION):$(VERSION) .
 
 .PHONY: ls
 ls: ## - Listing images of the application with versions
@@ -39,3 +39,15 @@ stop: ## - stoping the running container for application
 app-compile: ## - Compiling the code to single executable file
 	@printf "\033[32m\xE2\x9c\x93 $(VERSION) | Compiling the code to single executable file\n\033[0m"
 	@mvn clean package spring-boot:repackage
+
+.PHONY: push-to-gcp
+push-to-gcp:	## - Push docker image to gcr.io container registry
+	# @gcloud auth application-default login
+	# @gcloud auth configure-docker
+	@printf "\033[32m\xE2\x9c\x93 $(VERSION) | Pushing image to GCP !\n\033[0m"
+	@docker push gcr.io/$(PROJECT)/$(APPLICATION):$(VERSION)
+
+.PHONY: deploy-to-gcp
+deploy-to-gcp: ## - Deploying version to GCLOUD RUN
+	@printf "\033[32m\xE2\x9c\x93 $(VERSION) | Deploying version to GCLOUD RUN !\n\033[0m"
+	@gcloud run deploy $(APPLICATION) --platform managed --revision-suffix=$(VERSION) --region us-central1 --image gcr.io/$(PROJECT)/$(APPLICATION):$(VERSION)
